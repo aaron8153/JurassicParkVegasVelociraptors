@@ -6,8 +6,8 @@ FactoryBot.define do
     trait :carnivore_diet do
       carnivorous { true }
     end
-    trait :herbavore_diet do
-      carnivorous { true }
+    trait :herbivore_diet do
+      carnivorous { false }
     end
   end
 end

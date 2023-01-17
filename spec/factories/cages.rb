@@ -7,5 +7,9 @@ FactoryBot.define do
     trait :powered do
       power_status { true }
     end
+
+    trait :unpowered do
+      power_status { false }
+    end
   end
 end
