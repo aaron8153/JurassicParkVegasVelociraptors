@@ -6,9 +6,22 @@ class Cage < ApplicationRecord
   validates_uniqueness_of :name
   validate :validate_power_status, on: :update
 
+  ACTIVE = true
+  DOWN = false
+
+  scope :active, -> { where(power_status: ACTIVE) }
+  scope :down, -> { where(power_status: DOWN) }
+
+  scope :herbivore_friendly, -> { where(species_id: nil) }
+  scope :is_same_species, -> (species) { where(species: species) }
+
+  scope :vacant, -> { left_outer_joins(:dinosaurs).where(dinosaurs: { id: nil }) }
+  scope :has_room, -> { joins(:dinosaurs).group(:id).having("count(dinosaurs.id) > 0 AND count(dinosaurs.id) < max_capacity") }
+  scope :full, -> { joins(:dinosaurs).group(:id).having("count(dinosaurs.id) = max_capacity") }
+
 
   def add_dinosaur(dino)
-    if powered?
+    if active?
       if vacant?
         if dino.carnivore?
           set_species(dino)
@@ -39,7 +52,7 @@ class Cage < ApplicationRecord
     end
   end
 
-  def powered?
+  def active?
     power_status
   end
 
@@ -79,7 +92,7 @@ class Cage < ApplicationRecord
   private
 
   def validate_power_status
-    if power_status == false && dinosaurs.count > 0
+    if power_status == DOWN && dinosaurs.count > 0
       errors.add(:power_status, "Cannot turn off cage when filled with dinosaurs")
     end
   end

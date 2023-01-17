@@ -149,7 +149,7 @@ RSpec.describe Cage, type: :model do
 
     describe "that is empty" do
       it "can power down" do
-        powered_cage.power_status = false
+        powered_cage.power_status = Cage::DOWN
         expect(powered_cage).to be_valid
       end
     end
@@ -159,7 +159,7 @@ RSpec.describe Cage, type: :model do
       end
 
       it "can not power down" do
-        powered_cage.power_status = false
+        powered_cage.power_status = Cage::DOWN
         expect(powered_cage).to be_invalid
       end
     end
@@ -169,7 +169,7 @@ RSpec.describe Cage, type: :model do
         create_list :dinosaur, powered_cage.max_capacity, species: species_carnivore, cage: powered_cage
       end
       it "can not power down" do
-        powered_cage.power_status = false
+        powered_cage.power_status = Cage::DOWN
         expect(powered_cage).to be_invalid
       end
     end
@@ -185,7 +185,7 @@ RSpec.describe Cage, type: :model do
 
     describe "that is empty" do
       it "can power up" do
-        unpowered_cage.power_status = true
+        unpowered_cage.power_status = Cage::ACTIVE
         expect(unpowered_cage).to be_valid
       end
       it "does not allow a dinosaur to be settled" do

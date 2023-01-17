@@ -1,15 +1,15 @@
 FactoryBot.define do
   factory :cage do
-    name { Faker::Name.unique.name }
+    name { "'#{Faker::Creature::Animal.unique.name}' Cage" }
     max_capacity { 10 }
-    power_status { false } #powered down
+    power_status { Cage::DOWN } #powered down
 
     trait :powered do
-      power_status { true }
+      power_status { Cage::ACTIVE }
     end
 
     trait :unpowered do
-      power_status { false }
+      power_status { Cage::DOWN }
     end
   end
 end
