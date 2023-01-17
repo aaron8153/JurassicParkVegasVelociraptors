@@ -4,4 +4,12 @@ class Dinosaur < ApplicationRecord
 
   validates :name, :species, presence: true
 
+  def carnivore?
+    species.carnivorous
+  end
+
+  def herbivore?
+    !species.carnivorous
+  end
+
 end
