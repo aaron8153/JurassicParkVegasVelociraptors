@@ -55,3 +55,20 @@ end
     cage.add_dinosaur(dino)
   end
 end
+
+# 5 Carnivore Cages, Powered
+(1..5).map do
+  cage = Cage.create!(
+    name: "'#{Faker::Creature::Animal.unique.name.titleize}' Cage",
+    max_capacity: 10,
+    power_status: Cage::ACTIVE
+  )
+
+  (1..5).map do
+    homeless_dino = Dinosaur.create!(
+      name: Faker::Name.unique.name,
+      species: Species.carnivorous.offset(rand(carnivores.length)).first
+    )
+    cage.add_dinosaur(homeless_dino)
+  end
+end

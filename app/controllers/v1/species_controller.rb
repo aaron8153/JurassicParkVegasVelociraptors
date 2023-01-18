@@ -5,16 +5,16 @@ module V1
 
     def index
       species = Species.page(@page).per(@per_page)
-      render_json(SpeciesSerializer, species, {meta: {message: ['Species list fetched successfully'], status: :ok, type: 'Success'}})
+      render_json(SpeciesSerializer, species, {meta: {message: ['Species list fetched successfully']}})
     end
 
     def show
       if @species.nil?
         data = { errors: [] }
-        data[:errors] << {id: params[:id], message: 'Species not found title', status: 422, type: :unprocessable_entity }
+        data[:errors] << {id: params[:id], message: 'Species not found', status: 422, type: :unprocessable_entity }
         render json: data, status: :unprocessable_entity
       else
-        render_json(SpeciesSerializer, @species, {meta: {message: ['Species fetched successfully'], status: :ok, type: 'Success'}})
+        render_json(SpeciesSerializer, @species, {meta: {message: ['Species fetched successfully']}})
       end
     end
 

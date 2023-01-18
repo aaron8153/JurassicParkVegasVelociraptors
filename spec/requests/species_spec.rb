@@ -64,7 +64,6 @@ RSpec.describe "Species", type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
-
   end
 
   describe "PUT #update" do
@@ -99,12 +98,11 @@ RSpec.describe "Species", type: :request do
     let!(:species) {
       create(:species)
     }
-    it "destroys the correct species" do
+    it "destroys the correct Species" do
       expect {
         delete "/v1/species/#{species.id}"
       }.to change(Species, :count).by(-1)
       expect(response).to have_http_status(:no_content)
     end
-
   end
 end
