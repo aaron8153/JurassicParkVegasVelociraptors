@@ -4,7 +4,14 @@ module V1
     before_action :set_page_info, only: [:index]
 
     def index
-      cages = Cage.all.includes(:species, :dinosaurs).page(@page).per(@per_page)
+      case params[:power_status].to_s.upcase
+      when "ACTIVE"
+        cages = Cage.active.includes(:species, :dinosaurs).page(@page).per(@per_page)
+      when "DOWN"
+        cages = Cage.down.includes(:species, :dinosaurs).page(@page).per(@per_page)
+      else
+        cages = Cage.includes(:species, :dinosaurs).page(@page).per(@per_page)
+      end
       render_json(CageSerializer, cages, {meta: {message: ['Cages list fetched successfully']}})
     end
 

@@ -4,7 +4,14 @@ module V1
     before_action :set_page_info, only: [:index]
 
     def index
-      species = Species.page(@page).per(@per_page)
+      case params[:carnivorous]
+      when "true"
+        species = Species.carnivorous.page(@page).per(@per_page)
+      when "false"
+        species = Species.herbivorous.page(@page).per(@per_page)
+      else
+        species = Species.page(@page).per(@per_page)
+      end
       render_json(SpeciesSerializer, species, {meta: {message: ['Species list fetched successfully']}})
     end
 
