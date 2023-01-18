@@ -5,7 +5,11 @@ module V1
     before_action :set_page_info, only: [:index]
 
     def index
-      dinosaur = Dinosaur.page(@page).per(@per_page)
+      if params[:species_id].nil?
+        dinosaur = Dinosaur.page(@page).per(@per_page)
+      else
+        dinosaur = Dinosaur.filter_by_species(params[:species_id]).page(@page).per(@per_page)
+      end
       render_json(DinosaurSerializer, dinosaur, {meta: {message: ['Dinosaur list fetched successfully']}})
     end
 

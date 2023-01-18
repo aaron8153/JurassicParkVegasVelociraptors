@@ -6,6 +6,7 @@ class Dinosaur < ApplicationRecord
 
   scope :carnivores, -> { joins(:species).where(species: {carnivorous: true}) }
   scope :herbivores, -> { joins(:species).where(species: {carnivorous: false}) }
+  scope :filter_by_species, -> (species_id) { joins(:species).where(species: {id: species_id}) }
   scope :homeless, -> { where(cage_id: nil) }
 
   def carnivore?
