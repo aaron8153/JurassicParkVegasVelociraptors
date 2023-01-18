@@ -4,6 +4,10 @@ class Dinosaur < ApplicationRecord
 
   validates :name, :species, presence: true
 
+  scope :carnivores, -> { joins(:species).where(species: {carnivorous: true}) }
+  scope :herbivores, -> { joins(:species).where(species: {carnivorous: false}) }
+  scope :homeless, -> { where(cage_id: nil) }
+
   def carnivore?
     species.carnivorous
   end
